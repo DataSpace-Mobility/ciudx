@@ -22,16 +22,6 @@ import (
 
 // LatestEntities - Latest Data
 func LatestEntities(c *gin.Context) {
-	/* var modelEntity models.ModelEntity
-	err := c.BindJSON(&modelEntity)
-	if err != nil {
-		return
-	} */
-	// ck := ckan.InitCkan("")
-	// ckanResponse, err := ck.Search(c.Param("id"))
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
 
 	ctx := context.Background()
 
