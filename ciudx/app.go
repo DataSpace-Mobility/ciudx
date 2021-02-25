@@ -4,6 +4,8 @@ import (
 	"os"
 
 	redis "github.com/dataspace-mobility/rs-iudx/ciudx/redis"
+	"github.com/dataspace-mobility/rs-iudx/ciudx/utils"
+	"github.com/dataspace-mobility/rs-iudx/ciudx/websocket"
 	"github.com/gin-gonic/gin"
 	logging "github.com/ipfs/go-log"
 )
@@ -28,7 +30,8 @@ func NewApp() *App {
 		RedisConnection: redis.NewRedisConnection(),
 	}
 
-	router := NewRouter(app)
+	ws := websocket.NewDSWebSocket()
+	router := NewRouter(app, ws)
 	app.Router = router
 
 	return app
@@ -36,8 +39,9 @@ func NewApp() *App {
 
 // Run starts the router.
 func (app App) Run() error {
-	log.Info("Starting RS-IUDX app on port ", "8001")
-	return app.Router.Run(":8001")
+	port := utils.Getenv("LISTEN_PORT", "8001")
+	log.Info("Starting RS-IUDX app on port ", port)
+	return app.Router.Run(":" + port)
 }
 
 func runDebug() {

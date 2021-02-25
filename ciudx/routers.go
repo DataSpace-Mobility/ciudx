@@ -12,6 +12,7 @@ package ciudx
 import (
 	"net/http"
 
+	"github.com/dataspace-mobility/rs-iudx/ciudx/websocket"
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,10 +32,10 @@ type Route struct {
 type Routes []Route
 
 // NewRouter returns a new router.
-func NewRouter(app *App) *gin.Engine {
+func NewRouter(app *App, ws *websocket.DSWebSocket) *gin.Engine {
 	router := gin.Default()
 	// router.Use(wrapper(""))
-	for _, route := range buildRoutes(app) {
+	for _, route := range buildRoutes(app, ws) {
 		switch route.Method {
 		case http.MethodGet:
 			router.GET(route.Pattern, route.HandlerFunc)
@@ -59,7 +60,7 @@ func wrapper(token string) gin.HandlerFunc {
 	}
 }
 
-func buildRoutes(app *App) Routes {
+func buildRoutes(app *App, ws *websocket.DSWebSocket) Routes {
 	var routes = Routes{
 		{
 			"Index",
@@ -150,6 +151,13 @@ func buildRoutes(app *App) Routes {
 			http.MethodGet,
 			"/ngsi-ld/v1/temporal/entities",
 			TemporalEntities,
+		},
+
+		{
+			"WebSocket",
+			http.MethodGet,
+			"/ws",
+			ws.HandleFunc,
 		},
 	}
 	return routes
