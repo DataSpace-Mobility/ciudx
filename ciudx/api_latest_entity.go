@@ -14,7 +14,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	models "dataspace.mobi/ciudx/go/models"
+	models "dataspace.mobi/ciudx/ciudx/models"
 
 	"github.com/gin-gonic/gin"
 	redis "github.com/go-redis/redis/v8"

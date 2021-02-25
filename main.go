@@ -12,7 +12,7 @@ package main
 import (
 	"log"
 
-	sw "dataspace.mobi/ciudx/go"
+	sw "dataspace.mobi/ciudx/ciudx"
 )
 
 func main() {
