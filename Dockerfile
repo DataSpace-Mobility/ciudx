@@ -1,5 +1,5 @@
 FROM scratch AS runtime
 ENV GIN_MODE=release
-COPY build/ciudx ./
+COPY build/rs-iudx ./
 EXPOSE 8001/tcp
-ENTRYPOINT ["./ciudx"]
+ENTRYPOINT ["./rs-iudx"]

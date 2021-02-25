@@ -1,6 +1,6 @@
 all:
 	mkdir -p build
-	go build -o build/ciudx main.go
+	go build -o build/rs-iudx main.go
 
 docker:
-	docker build -t dataspacein/ciudx:latest . 
+	docker build -t dataspacein/rs-iudx:latest . 
