@@ -31,10 +31,10 @@ type Route struct {
 type Routes []Route
 
 // NewRouter returns a new router.
-func NewRouter() *gin.Engine {
+func NewRouter(app *App) *gin.Engine {
 	router := gin.Default()
 	// router.Use(wrapper(""))
-	for _, route := range routes {
+	for _, route := range buildRoutes(app) {
 		switch route.Method {
 		case http.MethodGet:
 			router.GET(route.Pattern, route.HandlerFunc)
@@ -59,100 +59,103 @@ func wrapper(token string) gin.HandlerFunc {
 	}
 }
 
+func buildRoutes(app *App) Routes {
+	var routes = Routes{
+		{
+			"Index",
+			http.MethodGet,
+			"/",
+			Index,
+		},
+
+		{
+			"Deleteadaptor",
+			http.MethodDelete,
+			"/iudx/v1/adapter/:id",
+			Deleteadaptor,
+		},
+
+		{
+			"Getadaptordetails",
+			http.MethodGet,
+			"/iudx/v1/adapter/:id",
+			Getadaptordetails,
+		},
+
+		{
+			"Registeradapter",
+			http.MethodPost,
+			"/iudx/v1/adapter/register",
+			Registeradapter,
+		},
+
+		{
+			"Appendstreamingsubscription",
+			http.MethodPatch,
+			"/ngsi-ld/v1/subscription/:id",
+			Appendstreamingsubscription,
+		},
+
+		{
+			"Createastreamingsubscription",
+			http.MethodPost,
+			"/ngsi-ld/v1/subscription",
+			Createastreamingsubscription,
+		},
+
+		{
+			"Deleteasubscription",
+			http.MethodDelete,
+			"/ngsi-ld/v1/subscription/:id",
+			Deleteasubscription,
+		},
+
+		{
+			"Getstreamingsubscription",
+			http.MethodGet,
+			"/ngsi-ld/v1/subscription/:id",
+			Getstreamingsubscription,
+		},
+
+		{
+			"Updatestreamingsubscription",
+			http.MethodPut,
+			"/ngsi-ld/v1/subscription/:id",
+			Updatestreamingsubscription,
+		},
+
+		{
+			"Search",
+			http.MethodGet,
+			"/ngsi-ld/v1/entities",
+			Search,
+		},
+
+		{
+			"ComplexQuery",
+			http.MethodPost,
+			"/ngsi-ld/v1/entityOperations/query",
+			ComplexQuery,
+		},
+
+		{
+			"LatestEntities",
+			http.MethodGet,
+			"/ngsi-ld/v1/entities/:id",
+			app.LatestEntities,
+		},
+
+		{
+			"TemporalEntities",
+			http.MethodGet,
+			"/ngsi-ld/v1/temporal/entities",
+			TemporalEntities,
+		},
+	}
+	return routes
+}
+
 // Index is the index handler.
 func Index(c *gin.Context) {
 	c.String(http.StatusOK, "Hello World!")
-}
-
-var routes = Routes{
-	{
-		"Index",
-		http.MethodGet,
-		"/",
-		Index,
-	},
-
-	{
-		"Deleteadaptor",
-		http.MethodDelete,
-		"/iudx/v1/adapter/:id",
-		Deleteadaptor,
-	},
-
-	{
-		"Getadaptordetails",
-		http.MethodGet,
-		"/iudx/v1/adapter/:id",
-		Getadaptordetails,
-	},
-
-	{
-		"Registeradapter",
-		http.MethodPost,
-		"/iudx/v1/adapter/register",
-		Registeradapter,
-	},
-
-	{
-		"Appendstreamingsubscription",
-		http.MethodPatch,
-		"/ngsi-ld/v1/subscription/:id",
-		Appendstreamingsubscription,
-	},
-
-	{
-		"Createastreamingsubscription",
-		http.MethodPost,
-		"/ngsi-ld/v1/subscription",
-		Createastreamingsubscription,
-	},
-
-	{
-		"Deleteasubscription",
-		http.MethodDelete,
-		"/ngsi-ld/v1/subscription/:id",
-		Deleteasubscription,
-	},
-
-	{
-		"Getstreamingsubscription",
-		http.MethodGet,
-		"/ngsi-ld/v1/subscription/:id",
-		Getstreamingsubscription,
-	},
-
-	{
-		"Updatestreamingsubscription",
-		http.MethodPut,
-		"/ngsi-ld/v1/subscription/:id",
-		Updatestreamingsubscription,
-	},
-
-	{
-		"Search",
-		http.MethodGet,
-		"/ngsi-ld/v1/entities",
-		Search,
-	},
-
-	{
-		"ComplexQuery",
-		http.MethodPost,
-		"/ngsi-ld/v1/entityOperations/query",
-		ComplexQuery,
-	},
-
-	{
-		"LatestEntities",
-		http.MethodGet,
-		"/ngsi-ld/v1/entities/:id",
-		LatestEntities,
-	},
-
-	{
-		"TemporalEntities",
-		http.MethodGet,
-		"/ngsi-ld/v1/temporal/entities",
-		TemporalEntities,
-	},
 }

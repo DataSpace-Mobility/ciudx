@@ -20,10 +20,14 @@ type App struct {
 
 // NewApp creates a new instance of the app.
 func NewApp() *App {
-	return &App{
+	app := &App{
 		RedisConnection: redis.NewRedisConnection(),
-		Router:          NewRouter(),
 	}
+
+	router := NewRouter(app)
+	app.Router = router
+
+	return app
 }
 
 // Run starts the router.

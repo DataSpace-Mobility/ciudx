@@ -21,7 +21,7 @@ import (
 )
 
 // LatestEntities - Latest Data
-func LatestEntities(c *gin.Context) {
+func (app App) LatestEntities(c *gin.Context) {
 
 	ctx := context.Background()
 
