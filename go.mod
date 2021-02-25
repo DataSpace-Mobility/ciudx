@@ -1,4 +1,4 @@
-module dataspace.mobi/ciudx
+module github.com/dataspace-mobility/rs-iudx
 
 go 1.15
 

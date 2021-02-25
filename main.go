@@ -12,7 +12,7 @@ package main
 import (
 	"log"
 
-	sw "dataspace.mobi/ciudx/ciudx"
+	sw "github.com/dataspace-mobility/rs-iudx/ciudx"
 )
 
 func main() {
