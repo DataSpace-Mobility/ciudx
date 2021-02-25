@@ -13,14 +13,23 @@ import (
 	"log"
 
 	ciudx "github.com/dataspace-mobility/rs-iudx/ciudx"
+	logging "github.com/ipfs/go-log"
 )
 
 func main() {
-	log.Printf("Server started")
+	setLogLevel()
 
 	app := ciudx.NewApp()
 	err := app.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func setLogLevel() {
+	lvl, err := logging.LevelFromString("info")
+	if err != nil {
+		panic(err)
+	}
+	logging.SetAllLoggers(lvl)
 }
