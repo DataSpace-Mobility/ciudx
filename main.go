@@ -12,13 +12,15 @@ package main
 import (
 	"log"
 
-	sw "github.com/dataspace-mobility/rs-iudx/ciudx"
+	ciudx "github.com/dataspace-mobility/rs-iudx/ciudx"
 )
 
 func main() {
 	log.Printf("Server started")
 
-	router := sw.NewRouter()
-
-	log.Fatal(router.Run(":8001"))
+	app := ciudx.NewApp()
+	err := app.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
