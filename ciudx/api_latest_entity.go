@@ -25,13 +25,7 @@ func (app App) LatestEntities(c *gin.Context) {
 
 	ctx := context.Background()
 
-	redisClient := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "",
-		DB:       0,
-	})
-
-	val, err := redisClient.Get(ctx, c.Param("id")).Result()
+	val, err := app.RedisConnection.Client.Get(ctx, c.Param("id")).Result()
 	var res models.ModelEntityresponse
 	if err == redis.Nil {
 		res = models.ModelEntityresponse{
@@ -43,6 +37,7 @@ func (app App) LatestEntities(c *gin.Context) {
 			Type:  "400",
 			Title: "Bad Request",
 		}
+		log.Error(err)
 	} else {
 		var jsonResponse map[string]interface{}
 		err := json.Unmarshal([]byte(val), &jsonResponse)
