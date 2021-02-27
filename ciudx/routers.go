@@ -12,6 +12,7 @@ package ciudx
 import (
 	"net/http"
 
+	"github.com/dataspace-mobility/rs-iudx/ciudx/video"
 	"github.com/dataspace-mobility/rs-iudx/ciudx/websocket"
 	"github.com/gin-gonic/gin"
 )
@@ -32,10 +33,10 @@ type Route struct {
 type Routes []Route
 
 // NewRouter returns a new router.
-func NewRouter(app *App, ws *websocket.DSWebSocket) *gin.Engine {
+func NewRouter(app *App, ws *websocket.DSWebSocket, vs *video.VideoServer) *gin.Engine {
 	router := gin.Default()
 	// router.Use(wrapper(""))
-	for _, route := range buildRoutes(app, ws) {
+	for _, route := range buildRoutes(app, ws, vs) {
 		switch route.Method {
 		case http.MethodGet:
 			router.GET(route.Pattern, route.HandlerFunc)
@@ -60,7 +61,7 @@ func wrapper(token string) gin.HandlerFunc {
 	}
 }
 
-func buildRoutes(app *App, ws *websocket.DSWebSocket) Routes {
+func buildRoutes(app *App, ws *websocket.DSWebSocket, vs *video.VideoServer) Routes {
 	var routes = Routes{
 		{
 			"Index",
@@ -158,6 +159,20 @@ func buildRoutes(app *App, ws *websocket.DSWebSocket) Routes {
 			http.MethodGet,
 			"/ws",
 			ws.HandleFunc,
+		},
+
+		{
+			"VideoServer",
+			http.MethodPost,
+			"/video",
+			vs.HandleFunc,
+		},
+
+		{
+			"WebSocketVideo",
+			http.MethodGet,
+			"/video-ws/:resource",
+			vs.WSHandleFunc,
 		},
 	}
 	return routes
